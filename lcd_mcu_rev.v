@@ -164,22 +164,31 @@ always  @(posedge clock)
                             if (r_Counter[17:8] == 10'h00E)
                                 begin
                                     r_Stage             <=  WAIT;
-                                    if (i_Data_Character == 7'h70)
-                                        begin
-                                            r_LCD_State <=  8'hF0;                                                   
-                                        end
-                                    else if (i_Data_Character == 7'h71)
-                                        begin
-                                            r_LCD_State <=  8'hF1;       
-                                        end
-                                    else if (i_Data_Character == 7'h79)
-                                        begin
-                                            r_LCD_State <=  8'hF9;       
-                                        end
-                                    else
-                                        begin
-                                            r_LCD_State <=  i_Data_Character;
-                                        end
+                                    case (i_Data_Character)
+                                        8'h70:
+                                            begin
+                                                r_LCD_State <=  8'hF0;
+                                            end
+                                        8'h71:
+                                            begin
+                                                r_LCD_State <=  8'hF1;
+                                            end
+                                        8'h79:
+                                            begin
+                                                r_LCD_State <=  8'hF9;
+                                            end
+                                        8'h67:
+                                            begin
+                                                r_LCD_State <=  8'hE7;
+                                            end
+                                        8'h70:
+                                            begin
+                                            end
+                                        default:
+                                            begin
+                                                r_LCD_State <=  i_Data_Character;
+                                            end
+                                    endcase
                                     r_LCD_RW            <= 0;                                    
                                     r_LCD_RS            <= 1;
                                     r_Counter[17:8]     <=  10'h000;
